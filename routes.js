@@ -39,16 +39,18 @@ router.post("/", (req,res)=> {
     return res.status(201).json({});
 });
 
-router.put("/recipes",(req,res)=>{
+router.put("/",(req,res)=>{
 
     var body = req.body;
     for(var i = 0; i<obj.recipes.length;i++){
+
         if(obj.recipes[i].name === body.name){
-            if(body.recipes.ingredients){
-                obj.recipes[i].ingredients = body.recipes.ingredients;
+            if(body.ingredients){
+                obj.recipes[i].ingredients = body.ingredients;
+                
             }
-            if(body.recipes.instructions){
-                obj.recipes[i].instructions = body.recipes.instructions;
+            if(body.instructions){
+                obj.recipes[i].instructions = body.instructions;
             }
             return res.status(204).json();
         }
