@@ -1,8 +1,9 @@
 const express = require("express");
 const app = express();
-const Route = require("./api/routes/Routes");
+const route = require("./routes.js")
 
 
-app.use("/recipes",Route);
+
+app.use("/recipes", route);
 
 module.exports = app;
