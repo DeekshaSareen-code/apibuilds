@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 router.use(express.json());
 
+const obj = require("./data.json");
 router.get("/",(req,res)=>{
 
-    var obj = require("./data.json")
     var receipes = [];
     
     // console.log()
@@ -16,7 +16,6 @@ router.get("/",(req,res)=>{
 
 router.get("/details/:id", (req,res)=>{
   
-    var obj = require("./data.json");
     const id = req.params.id;
     for(var i = 0; i<obj.recipes.length;i++){
 
@@ -28,4 +27,33 @@ router.get("/details/:id", (req,res)=>{
     return res.status(200).json({});
 });
 
+router.post("/", (req,res)=> {
+
+    var body = req.body;
+    for(var i = 0; i<obj.recipes.length;i++){
+        if(obj.recipes[i].name === body.name){
+            return res.status(400).json({error: "Recipe Already Exists"});
+        }
+    }
+    obj["recipes"].push(body);
+    return res.status(201).json({});
+});
+
+router.put("/recipes",(req,res)=>{
+
+    var body = req.body;
+    for(var i = 0; i<obj.recipes.length;i++){
+        if(obj.recipes[i].name === body.name){
+            if(body.recipes.ingredients){
+                obj.recipes[i].ingredients = body.recipes.ingredients;
+            }
+            if(body.recipes.instructions){
+                obj.recipes[i].instructions = body.recipes.instructions;
+            }
+            return res.status(204).json();
+        }
+    }
+    return res.status(404).json({ error: "Recipe does not exist" });
+
+});
 module.exports = router;
